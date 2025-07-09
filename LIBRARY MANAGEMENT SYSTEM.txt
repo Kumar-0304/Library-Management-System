@@ -1,0 +1,152 @@
+LIBRARY MANAGEMENT SYSTEM:
+class BookNotFoundException(Exception):
+    pass
+
+class BookNotAvailableException(Exception):
+    pass
+
+class BorrowLimitExceededException(Exception):
+    pass
+class Book:
+    def __init__(self,Book_id,Title,Author,Check_availability=True):
+        self.Book_id=Book_id
+        self.Title=Title
+        self.Author=Author
+        self.Check_Availability=Check_availability
+    def Book_info(self):
+      print(f"Book id is {self.Book_id}")
+      print(f"Book Title is {self.Title}")
+      print(f"Author nems is {self.Author}")
+      if self.Check_Availability:
+          print("Book is available to take..")
+      else:
+          print("Book not available..")
+class Library:
+    def __init__(self,Book_list=[]):
+        self.Book_list=Book_list
+    def Add_Book(self,Name):
+        self.Book_list.append(Name)
+        print(self.Book_list)
+        print(Name.Book_info())
+        print(self.Book_list)
+    def Remove_book(self,Book_id):
+       try:
+            for i in self.Book_list:
+                if i.Book_id == Book_id:
+                    self.Book_list.remove(i)
+                    print("Removed....")
+                    return
+            raise BookNotFoundException("Book Not Found in the list..")
+       except BookNotFoundException as e:
+           print(e)
+
+    def Search_Book_By_Title(self,Title):
+        if self.Book_list:
+            for i in self.Book_list:
+                if i.Title == Title:
+                    print(i.Book_info())
+                else:
+                    print("Not found....")
+
+
+
+    def Book_Methods(self):
+        while True:
+            print("1.Add_book 2.Remove_book 3.Search_By_Title 4.Create_Membership")
+            Choice = int(input("enter your choice:"))
+            if Choice == 1:
+                Book_id = int(input("enter book id:"))
+                Title = input("Enter the title:")
+                Author = input("enter Author name:")
+                name = input("enter name of the book:")
+                name = Book(Book_id, Title, Author)
+                self.Add_Book(name)
+            if Choice == 2:
+                Book_id = int(input("enter book id:"))
+                self.Remove_book(Book_id)
+            if Choice == 3:
+                Title = input("enter Book Title:")
+                self.Search_Book_By_Title(Title)
+            if Choice==4:
+               break
+
+class Member(Library,Book):
+    def __init__(self,Member_id,Member_name,Book_list,Borrowed_books=[]):
+        self.Member_Id=Member_id
+        self.Member_Name=Member_name
+        self.Borrowed_Books=Borrowed_books
+        super().__init__(Book_list)
+    def Borrow_Book(self,Book_id):
+        try:
+            for i in self.Book_list:
+                if Book_id == i.Book_id and i.Check_Availability==True:
+                    print("Boook found.Ready to Borrow the Book..")
+                    if len(self.Borrowed_Books) >=3:
+                        raise BorrowLimitExceededException("Borrow Limit exceeded..you can not borrow Book..")
+                    else:
+                        self.Borrowed_Books.append(i)
+                        i.Check_Availability=False
+                        print("Book Borrowed...")
+                        return
+            raise BookNotFoundException("Book not found...")
+        except BookNotFoundException as e:
+            print(e)
+    def Return_Book(self,Book_id):
+        if self.Book_list:
+            for i in self.Borrowed_Books:
+                if Book_id == i.Book_id and i.Check_Availability==False:
+                    i.Check_Availability=True
+                    print("Book Returned..Thank You..")
+                else:
+                    print("Invalid Book Id..")
+        else:
+            print("Books Not present....Book List is empty....")
+print("To run this project we Need to add some Books into Book_List so please select Book_Methods 'FIRST' To Borrow any book we need to take membership every time newly")
+while True:
+    print("1.Book_Methods 2.Membership 3.exit")
+    Choice = int(input("enter your option:"))
+    if Choice == 1:
+        ll = Library()
+        ll.Book_Methods()
+    if Choice == 2:
+        Member_id = int(input("enter member id:"))
+        Member_name = input("enter name:")
+        mm = Member(Member_id, Member_name,ll.Book_list)
+        while True:
+           print("select 1.Borrow_Book 2.Return_book 3.exit")
+           Choice = int(input("select one option:"))
+           if Choice == 1:
+               id = int(input("enter id that you want to borrow:"))
+               mm.Borrow_Book(id)
+           if Choice == 2:
+               id = int(input("enter id that you want to return:"))
+               mm.Return_Book(id)
+           if Choice==3:
+               break
+    if Choice==3:
+        break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
