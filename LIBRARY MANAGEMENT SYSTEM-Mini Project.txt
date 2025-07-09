@@ -1,0 +1,37 @@
+LIBRARY MANAGEMENT SYSTEM:
+task-1:
+->Create a Book class
+attributes:
+book_id,Title,Author,Check_availability(boolian output)
+methods:
+->Display info method
+task-2:
+->Difine a Library Class
+attributes:
+Book_list(should contain list of book objects)
+methods:
+->Add Book
+->Remove Book
+->Search By title
+->Display all Books Methods
+here adding the book should be done by using the book name,removal of book should be done by using book_id,Book should be searched by using title of the book.
+
+task-3:
+->Create a member class
+attributes:
+Member_id,Member_name,Borrowed_books
+methods:
+->Borrow_book method.
+->Return book Method.
+Here book should be borrowed by using book id and book should be returned by using book_id.
+Note:Borrowing the Book logic:
+1)A member should not borrow more than three books at a time.
+2)Abook can not be borrowed if it is already borrowed
+
+task-4:
+->Implement the user defined exceptions.
+Create exceptions like:
+1)Book not available exception.
+2)Book not found exception.
+3)Maximum limit reached exception.
+Handle the above exceptions accordingly and perform the method calls. 
